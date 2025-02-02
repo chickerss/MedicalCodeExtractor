@@ -1,6 +1,7 @@
 import PyPDF2
 import pandas as pd
 import io
+from code_descriptions import get_code_description
 
 def read_pdf(pdf_file):
     """
@@ -32,11 +33,15 @@ def create_download_data(codes):
     Returns:
         BytesIO object containing CSV data
     """
-    # Create DataFrame from codes
+    # Create DataFrame from codes with descriptions
     data = []
     for code_type, code_list in codes.items():
         for code in code_list:
-            data.append({'Code Type': code_type, 'Code': code})
+            data.append({
+                'Code Type': code_type,
+                'Code': code,
+                'Description': get_code_description(code)
+            })
     
     df = pd.DataFrame(data)
     
